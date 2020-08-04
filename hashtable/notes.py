@@ -134,3 +134,8 @@ print(new_list[our_index])
 ## you made a hash out of that
 
 # Hash table, hash map, map, dictionary, object, set
+
+array_1 = [[8, 4], [90, -1, 3], [9, 62], [-7, -1, -56, -6], [201], [76, 18]]
+
+def min_array():
+    
