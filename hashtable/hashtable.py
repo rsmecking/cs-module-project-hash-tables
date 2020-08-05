@@ -1,5 +1,3 @@
-from LinkedList import LinkedList
-
 class HashTableEntry:
     """
     Linked List hash table key/value pair
@@ -61,7 +59,7 @@ class HashTable:
 
         hashed_var = FNV_offset_basis
 
-        string_bytes = s.encode()
+        string_bytes = key.encode()
 
         for b in string_bytes:
             hashed_var = hashed_var * FNV_prime
@@ -86,8 +84,8 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.fnv1(key) % self.capacity
+        # return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -100,7 +98,24 @@ class HashTable:
         # Your code here
         
         index = self.hash_index(key)
-        self.store[index] = HashTableEntry(key, value)
+        if self.store[index] == None:
+            self.store[index] = HashTableEntry(key, value)
+            self.size +=1
+        else:
+            current = self.store[index]
+            # True loop so that we can finish loop at the last node.
+            while True:
+                # If keys match, update the value
+                if current.key == key:
+                    current.value = value
+                    break
+                # If reach end of LL without finding key, insert the key, value.
+                if current.next is None:
+                    current.next = HashTableEntry(key, value)
+                    self.size += 1
+                    break
+                # traverse to next
+                current = current.next
 
     def delete(self, key):
         """
@@ -112,10 +127,24 @@ class HashTable:
         """
         # Your code here
         index = self.hash_index(key)
-        if self.store[index] is None:
-            print("Key not found")
+        current = self.store[index]
+        prev = None
+
+        # Search the linked list for the key
+        while current.key != key and current.next is not None:
+            prev = current
+            current = current.next
+
+        if current.key == key and prev is not None:
+            prev.next = current.next
+            self.size -= 1
+
+        elif current.key == key:
+            self.store[index] = current.next
+            self.size -= 1
+
         else:
-            self.store[index] = None
+            return 'key not found.'
 
     def get(self, key):
         """
@@ -129,10 +158,11 @@ class HashTable:
         index = self.hash_index(key)
         current = self.store[index]
 
-        while current:
+        while current is not None:
             if current.key == key:
                 return current.value
-            current = current.next
+            else:
+                current = current.next
         return None
 
 

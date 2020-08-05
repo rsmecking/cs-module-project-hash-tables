@@ -1,8 +1,10 @@
 import re
+
+
+tr = str.maketrans('', '', '":;,.-+=/\\|[]{}()*^&')
+bad = ['"', ":", ";", ",", ".", "-", "+", "=", "/", "|", "[", "]", "{", "}", "(", ")", "*", "^", "&"]
 def word_count(s):
     # Your code here
-    # s = re.sub("(\W+)'t",'', s)
-    s = re.sub(r"[^\w\s]*$",'',s)
     counts = {}
     for word in s.lower().split():
         if word not in counts:
