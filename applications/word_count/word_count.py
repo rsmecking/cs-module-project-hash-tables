@@ -1,10 +1,8 @@
-import re
 
-
-tr = str.maketrans('', '', '":;,.-+=/\\|[]{}()*^&')
-bad = ['"', ":", ";", ",", ".", "-", "+", "=", "/", "|", "[", "]", "{", "}", "(", ")", "*", "^", "&"]
 def word_count(s):
     # Your code here
+    for char in '":;,.-+=/\\|[]{}()*^&':
+        s = s.replace(char,' ')
     counts = {}
     for word in s.lower().split():
         if word not in counts:

@@ -1,6 +1,7 @@
 def no_dups(s):
-    # Your code here
-
+    seen = set()
+    return ' '.join( seen.add(i) or i for i in s.split() if i not in seen )
+ 
 
 
 if __name__ == "__main__":
